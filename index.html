@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- === SEO Dasar & Meta Tags === -->
+    <title>Baraka Kuphi - Kopi Aceh Autentik & Kafe Terbuka Banda Aceh</title>
+    <meta name="description" content="Nikmati sensasi Kopi Aceh asli di Baraka Kuphi. Menyediakan Kopi Pancung, Sanger, Boh Manok Weng, dan Paket Ramadhan Baraka. Lokasi nongkrong nyaman di Banda Aceh.">
+    <meta name="keywords" content="Baraka Kuphi, Kopi Aceh, Cafe Banda Aceh, Tempat Nongkrong Aceh, Sanger Aceh, Boh Manok Weng, Kopi Autentik, Paket Ramadhan Baraka">
+    <meta name="author" content="Baraka Kuphi">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph (Untuk Tampilan Share Media Sosial/WA) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Baraka Kuphi - Acehnese Premium Coffee">
+    <meta property="og:description" content="Tempat berkumpul nyaman dengan pilihan kopi terbaik dan hidangan khas Aceh. Cek menu kami sekarang!">
+    <meta property="og:image" content="1000480286.png">
+    <meta property="og:url" content="https://baraka-kuphi.netlify.app">
+
+    <!-- JSON-LD Structured Data (Optimasi SEO Lokal Google) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CafeOrCoffeeShop",
+      "name": "Baraka Kuphi",
+      "image": "1000480286.png",
+      "telephone": "+6285260744442",
+      "url": "https://baraka-kuphi.netlify.app",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Jl. Utama Cafe Terbuka",
+        "addressLocality": "Banda Aceh",
+        "addressRegion": "Aceh",
+        "addressCountry": "ID"
+      },
+      "priceRange": "$",
+      "servesCuisine": ["Acehnese Coffee", "Indonesian Food"],
+      "openingHoursSpecification": [
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday"], "opens": "10:00", "closes": "23:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "14:00", "closes": "00:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Saturday", "Sunday"], "opens": "09:00", "closes": "00:00" }
+      ]
+    }
+    </script>
+
+    <!-- Framework & Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold: #d4af37;
+            --dark: #0a0a0a;
+            --card: #151515;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: #ffffff;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Custom Utilities */
+        .gold-text { color: var(--gold); }
+        .gold-bg { background-color: var(--gold); }
+        .gold-border { border-color: var(--gold); }
+        
+        /* Slideshow Styles */
+        .hero-slider {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+        .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+        .slide.active {
+            opacity: 1;
+        }
+        .slide-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(10,10,10,1));
+            z-index: 5;
+        }
+
+        .menu-tab.active {
+            background-color: var(--gold);
+            color: black;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        #backToTop {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        #backToTop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .dot.active {
+            background: var(--gold);
+            transform: scale(1.3);
+        }
+
+        /* Hide scrollbar for tabs */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body>
+
+    <!-- === NAVIGASI === -->
+    <nav class="fixed w-full z-50 bg-black/90 backdrop-blur-lg border-b border-white/5">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#home" class="flex items-center gap-3 group">
+                <img src="1000480286.png" alt="Logo Baraka Kuphi" class="h-10 md:h-12 w-auto transition group-hover:scale-110" onerror="this.src='https://via.placeholder.com/100x100?text=BK'">
+                <div class="flex flex-col leading-none">
+                    <span class="text-lg font-bold tracking-tighter">BARAKA</span>
+                    <span class="text-xs gold-text tracking-[0.3em]">KUPHI</span>
+                </div>
+            </a>
+            
+            <div class="hidden md:flex gap-10 text-xs font-bold uppercase tracking-widest">
+                <a href="#home" class="hover:gold-text transition">Beranda</a>
+                <a href="#promo" class="hover:gold-text transition">Promo</a>
+                <a href="#menu" class="hover:gold-text transition">Menu</a>
+                <a href="#contact" class="hover:gold-text transition">Kontak</a>
+            </div>
+
+            <button onclick="orderViaWA('Halo Baraka Kuphi')" class="gold-bg text-black px-6 py-2 rounded-full font-bold text-xs uppercase tracking-tighter hover:scale-105 active:scale-95 transition">
+                Pesan WA
+            </button>
+        </div>
+    </nav>
+
+    <!-- === TOMBOL MELAYANG === -->
+    <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-8 right-8 z-[60] gold-bg text-black w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition active:scale-90">
+        <i class="fa-solid fa-arrow-up text-xl"></i>
+    </button>
+
+    <!-- === HERO SECTION DENGAN SLIDESHOW === -->
+    <header id="home" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <!-- Background Slideshow -->
+        <div class="hero-slider">
+            <!-- Slide 1: Cafe Atmosphere -->
+            <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=1920');"></div>
+            <!-- Slide 2: Coffee Pouring -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=1920');"></div>
+            <!-- Slide 3: Acehnese Cuisine -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1541167760496-162955ed8a9f?auto=format&fit=crop&q=80&w=1920');"></div>
+            <!-- Slide 4: Interior Cozy -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&q=80&w=1920');"></div>
+            <!-- Slide 5: Barista in Action -->
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&q=80&w=1920');"></div>
+            <div class="slide-overlay"></div>
+        </div>
+
+        <div class="relative z-20 container mx-auto px-4 text-center">
+            <div class="inline-block px-4 py-1 border gold-border gold-text text-[10px] tracking-[0.4em] uppercase mb-8 animate-pulse">
+                Acehnese Heritage Coffee
+            </div>
+            <h1 class="text-5xl md:text-8xl font-bold mb-6 leading-tight">
+                Tradisi Dalam <br> <span class="gold-text">Setiap Sesapan</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-gray-400 mb-12 text-sm md:text-lg leading-relaxed">
+                Menyajikan pengalaman kopi Aceh premium dengan suasana kafe terbuka yang asri. Dari biji pilihan hingga cangkir Anda.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-5 justify-center">
+                <a href="#menu" class="px-10 py-4 gold-bg text-black rounded-full font-bold uppercase text-xs tracking-widest hover:brightness-110 transition">Lihat Menu Lengkap</a>
+                <a href="#promo" class="px-10 py-4 border border-white/20 hover:border-white transition rounded-full font-bold uppercase text-xs tracking-widest">Paket Ramadhan</a>
+            </div>
+
+            <!-- Dots Indicator -->
+            <div class="flex justify-center gap-3 mt-16">
+                <div class="dot active" onclick="setSlide(0)"></div>
+                <div class="dot" onclick="setSlide(1)"></div>
+                <div class="dot" onclick="setSlide(2)"></div>
+                <div class="dot" onclick="setSlide(3)"></div>
+                <div class="dot" onclick="setSlide(4)"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- === PROMO RAMADHAN === -->
+    <section id="promo" class="py-24 bg-[#0d0d0d]">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl md:text-6xl font-bold mb-4 italic">Ramadhan <span class="gold-text">Baraka</span></h2>
+            <p class="text-gray-500 mb-16 uppercase tracking-widest text-xs">Paket Buka Puasa Hemat & Lengkap</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Promo 1 -->
+                <div class="bg-white/5 border border-white/5 p-8 rounded-[2rem] card-hover relative overflow-hidden group text-center">
+                    <div class="text-5xl mb-6 text-center">🍲</div>
+                    <h4 class="text-2xl font-bold mb-2">Baraka 1</h4>
+                    <p class="text-gray-500 text-sm mb-6">Soto Ayam + Nasi + Teh Tarek Cincau</p>
+                    <div class="text-3xl font-bold gold-text mb-8">Rp 35.000</div>
+                    <button onclick="orderViaWA('Paket Baraka 1')" class="w-full py-4 border border-white/10 rounded-2xl group-hover:bg-white group-hover:text-black transition font-bold uppercase text-xs">Pesan Paket</button>
+                </div>
+                <!-- Promo 2 (Populer) -->
+                <div class="bg-white/5 border gold-border p-8 rounded-[2rem] card-hover relative overflow-hidden group text-center">
+                    <div class="absolute top-0 right-0 gold-bg text-black px-6 py-1 text-[10px] font-black uppercase">Terlaris</div>
+                    <div class="text-5xl mb-6">🍗</div>
+                    <h4 class="text-2xl font-bold mb-2">Baraka 2</h4>
+                    <p class="text-gray-500 text-sm mb-6">Ayam Geprek + Nasi + Teh Tarek Cincau</p>
+                    <div class="text-3xl font-bold gold-text mb-8">Rp 30.000</div>
+                    <button onclick="orderViaWA('Paket Baraka 2')" class="w-full py-4 gold-bg text-black rounded-2xl hover:brightness-110 transition font-bold uppercase text-xs">Pesan Paket</button>
+                </div>
+                <!-- Promo 3 -->
+                <div class="bg-white/5 border border-white/5 p-8 rounded-[2rem] card-hover relative overflow-hidden group text-center">
+                    <div class="text-5xl mb-6">🍤</div>
+                    <h4 class="text-2xl font-bold mb-2">Baraka 3</h4>
+                    <p class="text-gray-500 text-sm mb-6">Ayam Crispy + Nasi + Teh Tarek Cincau</p>
+                    <div class="text-3xl font-bold gold-text mb-8">Rp 30.000</div>
+                    <button onclick="orderViaWA('Paket Baraka 3')" class="w-full py-4 border border-white/10 rounded-2xl group-hover:bg-white group-hover:text-black transition font-bold uppercase text-xs">Pesan Paket</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- === DAFTAR MENU === -->
+    <section id="menu" class="py-24">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row justify-between items-end mb-16 gap-8">
+                <div class="text-center lg:text-left">
+                    <h2 class="text-4xl md:text-6xl font-bold mb-2">Daftar <span class="gold-text">Menu</span></h2>
+                    <p class="text-gray-500 uppercase tracking-tighter text-sm">Pilihan rasa terbaik untuk hari Anda</p>
+                </div>
+                <!-- Filter Tabs -->
+                <div class="flex gap-2 overflow-x-auto pb-2 w-full lg:w-auto no-scrollbar">
+                    <button onclick="filterMenu('all')" id="btn-all" class="menu-tab active px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition">Semua</button>
+                    <button onclick="filterMenu('kopi')" id="btn-kopi" class="menu-tab px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest bg-white/5 hover:bg-white/10 transition">Kopi</button>
+                    <button onclick="filterMenu('non-kopi')" id="btn-non-kopi" class="menu-tab px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest bg-white/5 hover:bg-white/10 transition">Non-Kopi</button>
+                    <button onclick="filterMenu('special')" id="btn-special" class="menu-tab px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest bg-white/5 hover:bg-white/10 transition">Spesial</button>
+                </div>
+            </div>
+
+            <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Item menu via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- === FOOTER & KONTAK === -->
+    <footer id="contact" class="bg-black pt-24 pb-12 border-t border-white/5">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-16 mb-20 text-center md:text-left">
+                <div>
+                    <img src="1000480286.png" alt="Baraka Footer" class="h-16 mx-auto md:mx-0 mb-8" loading="lazy">
+                    <p class="text-gray-500 text-sm leading-relaxed mb-8">
+                        Menyajikan kopi kualitas terbaik dengan keramahan khas Aceh. Tempat ideal untuk diskusi, bekerja, atau sekadar bersantai.
+                    </p>
+                    <div class="flex gap-4 justify-center md:justify-start">
+                        <a href="#" class="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center hover:gold-bg hover:text-black transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center hover:gold-bg hover:text-black transition"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-sm font-black uppercase tracking-[0.3em] gold-text mb-8 text-center md:text-left">Jam Operasional</h4>
+                    <ul class="text-gray-500 text-sm space-y-4">
+                        <li class="flex justify-between border-b border-white/5 pb-2"><span>Senin - Kamis</span> <span class="text-white">10:00 - 23:00</span></li>
+                        <li class="flex justify-between border-b border-white/5 pb-2 font-bold text-white"><span>Jumat</span> <span>14:00 - 00:00</span></li>
+                        <li class="flex justify-between border-b border-white/5 pb-2"><span>Sabtu - Minggu</span> <span class="text-white">09:00 - 00:00</span></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-black uppercase tracking-[0.3em] gold-text mb-8 text-center md:text-left">Lokasi & Kontak</h4>
+                    <div class="space-y-6">
+                        <p class="text-gray-500 text-sm flex items-start gap-4 justify-center md:justify-start">
+                            <i class="fa-solid fa-location-dot gold-text mt-1"></i>
+                            <span>Banda Aceh, Indonesia <br> <span class="text-[10px] uppercase">Area Cafe Terbuka</span></span>
+                        </p>
+                        <p class="text-gray-500 text-sm flex items-center gap-4 justify-center md:justify-start">
+                            <i class="fa-solid fa-phone gold-text"></i>
+                            <span>0852-6074-4442</span>
+                        </p>
+                        <div class="bg-white/5 p-4 rounded-xl">
+                            <p class="text-[10px] font-black uppercase gold-text mb-1">Pesan Meja / Booking</p>
+                            <p class="text-[11px] text-gray-400">Hubungi kami H-1 untuk reservasi tempat atau acara khusus.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center pt-12 border-t border-white/5 text-center">
+                <p class="text-[10px] text-gray-600 font-bold uppercase tracking-[0.5em]">
+                    &copy; 2024 Baraka Kuphi. Authentically Brewed.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Data Menu
+        const menuItems = [
+            { name: "Kopi Pancung", category: "kopi", price: "6k / 9k", desc: "Kopi hitam khas Aceh dengan porsi mantap." },
+            { name: "Sanger Autentik", category: "kopi", price: "8k / 12k", desc: "Resep legendaris kopi susu Aceh." },
+            { name: "BMW Kopi", category: "special", price: "13.000", desc: "Boh Manok Weng - Telur kocok legendaris." },
+            { name: "Mocca Beer", category: "special", price: "15.000", desc: "Perpaduan moka yang menyegarkan." },
+            { name: "BMW Milo", category: "special", price: "13.000", desc: "Telur kocok dengan rasa cokelat premium." },
+            { name: "Teh Tarek Manual", category: "non-kopi", price: "8k / 12k", desc: "Teh ditarik manual untuk busa sempurna." },
+            { name: "Green Honey Lemon", category: "non-kopi", price: "18.000", desc: "Segar dan sehat untuk stamina." },
+            { name: "Es Kopi Kurma", category: "special", price: "25.000", desc: "Menu sehat dengan manis kurma asli." },
+            { name: "Milo Susu", category: "non-kopi", price: "8k / 12k", desc: "Kesukaan semua orang, panas atau dingin." }
+        ];
+
+        // Slideshow Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            let next = (currentSlide + 1) % totalSlides;
+            showSlide(next);
+        }
+
+        function setSlide(index) {
+            showSlide(index);
+            // Reset interval when user clicks a dot
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        let slideInterval = setInterval(nextSlide, 5000);
+
+        // Render Menu
+        function renderMenu(items) {
+            const grid = document.getElementById('menu-grid');
+            grid.innerHTML = items.map(item => `
+                <div class="bg-white/5 p-6 rounded-3xl border border-white/5 card-hover flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <h5 class="text-xl font-serif font-bold group-hover:gold-text">${item.name}</h5>
+                            <span class="gold-text font-bold text-sm bg-gold/10 px-3 py-1 rounded-full">${item.price}</span>
+                        </div>
+                        <p class="text-gray-500 text-xs leading-relaxed text-left">${item.desc}</p>
+                    </div>
+                    <button onclick="orderViaWA('${item.name}')" class="mt-8 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest border-b border-white/10 pb-1 hover:border-gold hover:text-gold transition w-fit">
+                        <i class="fa-solid fa-cart-shopping"></i> Order Sekarang
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function filterMenu(category) {
+            document.querySelectorAll('.menu-tab').forEach(btn => {
+                btn.classList.remove('active', 'bg-white/5');
+                if(btn.id !== `btn-${category}`) btn.classList.add('bg-white/5');
+            });
+            document.getElementById(`btn-${category}`).classList.add('active');
+            const filtered = category === 'all' ? menuItems : menuItems.filter(i => i.category === category);
+            renderMenu(filtered);
+        }
+
+        function orderViaWA(item) {
+            const msg = `Halo Baraka Kuphi, saya ingin memesan: ${item}.`;
+            window.open(`https://wa.me/6285260744442?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        window.onscroll = () => {
+            const btn = document.getElementById('backToTop');
+            if (window.scrollY > 400) btn.classList.add('show');
+            else btn.classList.remove('show');
+        };
+
+        window.onload = () => {
+            renderMenu(menuItems);
+        };
+    </script>
+</body>
+</html>
+
